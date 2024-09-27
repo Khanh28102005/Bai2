@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý Sách</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            margin: 0;
+            font-weight: 600;
+            font-size: 24px;
+        }
+
+        .container {
+            width: 90%;
+            margin: 20px auto;
+            max-width: 1200px;
+        }
+
+        h2 {
+            color: #4CAF50;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            font-size: 16px;
+            font-weight: 500;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.05);
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus {
+            border-color: #4CAF50;
+            outline: none;
+        }
+
+        .button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            font-size: 14px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .button:hover {
+            background-color: #45a049;
+        }
+
+        .search-box {
+            margin-bottom: 20px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 12px;
+            font-size: 14px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.05);
+            transition: border-color 0.3s ease;
+        }
+
+        .search-box input:focus {
+            border-color: #4CAF50;
+            outline: none;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        td {
+            font-size: 14px;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        .actions button {
+            background-color: #f44336;
+            border: none;
+            padding: 8px 12px;
+            color: white;
+            font-size: 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .actions button:hover {
+            background-color: #d32f2f;
+        }
+
+        .actions .edit {
+            background-color: #2196F3;
+        }
+
+        .actions .edit:hover {
+            background-color: #1976D2;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            padding: 10px 0;
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        footer p {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Quản lý Sách</h1>
+    </header>
+
+    <div class="container">
+        <!-- Form để thêm sách -->
+        <h2>Thêm sách mới</h2>
+        <div id="add-book-form">
+            <div class="form-group">
+                <label for="title">Tiêu đề sách:</label>
+                <input type="text" id="title" placeholder="Nhập tiêu đề sách">
+            </div>
+
+            <div class="form-group">
+                <label for="author">Tác giả:</label>
+                <input type="text" id="author" placeholder="Nhập tên tác giả">
+            </div>
+
+            <div class="form-group">
+                <label for="year">Năm xuất bản:</label>
+                <input type="number" id="year" placeholder="Nhập năm xuất bản">
+            </div>
+
+            <button class="button" onclick="addBook()">Thêm sách</button>
+        </div>
+
+        <!-- Ô tìm kiếm -->
+        <h2>Tìm kiếm sách</h2>
+        <div class="search-box">
+            <input type="text" id="search" placeholder="Nhập từ khóa tìm kiếm" onkeyup="searchBook()">
+        </div>
+
+        <!-- Bảng hiển thị danh sách sách -->
+        <h2>Danh sách sách</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Tiêu đề</th>
+                    <th>Tác giả</th>
+                    <th>Năm xuất bản</th>
+                    <th>Hành động</th>
+                </tr>
+            </thead>
+            <tbody id="book-list">
+                <!-- Các dòng sách sẽ được thêm ở đây -->
+            </tbody>
+        </table>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Quản lý Sách - Designed with care</p>
+    </footer>
+
+    <script>
+        let books = [];
+
+        function addBook() {
+            const title = document.getElementById('title').value;
+            const author = document.getElementById('author').value;
+            const year = document.getElementById('year').value;
+
+            if (title && author && year) {
+                books.push({ title, author, year });
+                renderBooks();
+                clearForm();
+            } else {
+                alert("Vui lòng nhập đầy đủ thông tin sách.");
+            }
+        }
+
+        function deleteBook(index) {
+            books.splice(index, 1);
+            renderBooks();
+        }
+
+        function editBook(index) {
+            const book = books[index];
+            document.getElementById('title').value = book.title;
+            document.getElementById('author').value = book.author;
+            document.getElementById('year').value = book.year;
+            deleteBook(index);
+        }
+
+        function searchBook() {
+            const keyword = document.getElementById('search').value.toLowerCase();
+            const filteredBooks = books.filter(book => 
+                book.title.toLowerCase().includes(keyword) || 
+                book.author.toLowerCase().includes(keyword)
+            );
+            renderBooks(filteredBooks);
+        }
+
+        function renderBooks(filteredBooks = books) {
+            const bookList = document.getElementById('book-list');
+            bookList.innerHTML = '';
+
+            filteredBooks.forEach((book, index) => {
+                bookList.innerHTML += `
+                    <tr>
+                        <td>${book.title}</td>
+                        <td>${book.author}</td>
+                        <td>${book.year}</td>
+                        <td class="actions">
+                            <button class="edit" onclick="editBook(${index})">Sửa</button>
+                            <button onclick="deleteBook(${index})">Xóa</button>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
+        function clearForm() {
+            document.getElementById('title').value = '';
+            document.getElementById('author').value = '';
+            document.getElementById('year').value = '';
+        }
+    </script>
+
+</body>
+</html>
